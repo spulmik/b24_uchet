@@ -1,0 +1,451 @@
+.header {
+    padding: 20px;
+    background: #fff; /* Цвет фона при необходимости */
+}
+
+.header-content {
+  gap: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Выравнивание по верхнему краю */
+    max-width: 4000px; /* Ограничение ширины контента */
+    margin: 0 auto;
+}
+
+.text-block {
+    flex: 1;
+}
+
+.title {
+    margin: 0 0 8px 0; /* Отступ снизу для описания */
+    font-size: 24px;
+}
+
+.description {
+    margin: 0;
+    color: #666;
+    font-size: 16px;
+}
+
+.add-button {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    padding-top: 0;
+}
+
+/* Новая обертка для иконки */
+.icon-wrapper {
+    position: relative;
+    padding: 8px; /* Область для эффекта */
+    display: flex;
+    align-items: center;
+    border-radius: 6px;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Эффект при наведении */
+.icon-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.icon-wrapper:hover::before {
+    opacity: 1;
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+    z-index: 1; /* Чтобы иконка была поверх эффекта */
+    filter: drop-shadow(0 2px 4px rgba(0,0,0, 0.12));
+}
+.add-button-click {
+    background: #9a40ef;
+    color: white;
+    border: none;
+    border-radius: 6px; 
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    margin-right: 10px;
+    margin-top: 0; 
+}
+.plus {
+    font-size: 18px;
+    font-weight: 500;
+}
+@media (max-width: 480px) {
+    .add-button span:last-child {
+        display: none; /* Скрываем текст на мобильных */
+    }
+    .add-button {
+        padding: 8px;
+        border-radius: 50%;
+    }
+}
+.modal-title{
+  margin-top: 40px;
+}
+.icons-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.header-right-icons{
+    display: flex;
+    gap: 10px;
+}
+body {
+  
+    font-family: sans-serif;
+  }
+
+  button {
+    margin: 10px;
+  }
+
+  /* Общий затемнённый фон */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+  }
+
+  /* Второе модальное окно выше */
+  .modal.modal-top {
+    z-index: 20;
+  }
+
+  /* Слайд-панель справа (первая модалка) */
+  .modal-content {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 450px;
+    background: #fff;
+    padding: 20px;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+  }
+
+  /* Вторая модалка — уже и левее первой */
+  #modal2 .modal-content {
+    position: absolute;
+    border-radius: 6px;
+    top: 100px;
+    height: 300px;
+    width: 400px;
+    right: 490px; /* выезжает левее первой */
+    overflow-y: auto;
+  }
+  .modal-content-in-block{
+    padding: 0px;
+  }
+  .modal-content-in-block-header{
+    gap: 30px;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+  .search-input{
+    padding: 10px;
+    border-radius: 6px;
+    height: 10px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    flex: 1;
+  }
+  .deal-block {
+    margin-bottom: 10px;   /* Отступ снизу у каждого блока */
+    padding: 10px;         /* Внутренний отступ */
+    border: 1px solid #ccc; /* Серый бордер */
+    position: relative;
+    align-items: center;
+    border-radius: 6px;
+    justify-content: center;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s, transform 0.2s;
+}
+/*Наведение курсора*/
+.deal-block:hover {
+  background-color: #e0e0e0; /* Затемнение */
+  transform: scale(1.02);    /* Легкое увеличение */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+/*Эффект при нажатии*/
+.deal-block:active{
+  transform: scale(0.98);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.icon-wrapper:hover::before {
+  opacity: 1;
+}
+  .modal.show .modal-content {
+    transform: translateX(0);
+  }
+
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    color: #aaa;
+    cursor: pointer;
+  }
+
+  .close:hover {
+    color: red;
+  }
+  .add-modal-button-deals{
+    background: #9a40ef;
+    color: white;
+    border: none;
+    border-radius: 8px; 
+    padding: 10px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    margin-left: 0;
+    margin-top: 15px; 
+}
+.payment-form {
+  margin-top: 15px;
+  text-align: justify;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.switch-income-expenses{
+  justify-content: center;
+  gap: 50%;
+  display: flex;
+  width: 10px;
+  padding: 10px;
+  font-size: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  flex: 1;
+}
+.switchIncome{
+  position: relative;
+  font-size: 15px;
+  cursor: pointer;
+   transition: background-color 0.3s ease;
+}
+.switchIncome :active{
+background-color: rgb(0, 0, 0);
+color: black;
+}
+.form-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+.payment-form input {
+  padding: 10px;
+  font-size: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  flex: 1;
+  width: 50%;
+}
+.view-deals{
+  cursor: pointer;
+}
+.tabs {
+  display: inline-flex;
+  background: #f1f4f9;
+  padding: 0px;
+  border-radius: 8px;
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+.tab {
+  justify-content: center;
+  text-align: center;
+  align-content: center;
+  background: transparent;
+  border: none;
+  padding: 10px 10px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 5px;
+}
+
+.tab:hover {
+  background-color: #c0c0c0;
+}
+
+.tab.active {
+  padding: 10px;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+}
+
+.tab-content {
+  margin: 0 25px 0 20px;
+  display: none;
+  border-radius: 8px;
+}
+
+.tab-content.active {
+  display: flex;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+.form-row-button-add-payment{
+  background: #9a40ef;
+  justify-content: center;
+  color: white;
+  border: none;
+  border-radius: 8px; 
+  padding: 10px;
+  font-size: 14px;
+  display: flex;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  width: 100%;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+.blocks-nav{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 10px;
+}
+/*Блоки:баланс, доходы, расходы*/
+.blocks-balance{
+  border-radius: 8px;
+  height: 150px;
+  width:33.3%;
+  display: flex;
+  justify-content: space-between;
+  background: #9d43f0;
+  color: #f8e7ff;
+}
+.blocks-income{
+  border-radius: 8px;
+  height: 150px;
+  width:33.3%;
+  display: flex;
+  justify-content: space-between;
+  background: #1cb153;
+  color: #f8e7ff;
+}
+.blocks-expenses{
+  border-radius: 8px;
+  height: 150px;
+  width:33.3%;
+  display: flex;
+  justify-content: space-between;
+  background: #e73938 ;
+  color: #f8e7ff;
+}
+.blocks-balance-expenses-income-title{
+  padding: 30px 0 0 20px;
+}
+.circle{
+  margin: 20px;
+  justify-content: center;
+  display: flex;
+  width: 25px;
+  height: 25px;
+  background-color: rgba(254, 255, 255, 0.2);
+  border-radius: 50%; /* делает элемент круглым */
+}
+.circle i{
+  opacity: 1;
+}
+.review-container-diagramms{
+  position: relative;
+  margin: 10px 25px 0 20px;
+
+}
+.review-container{
+  border-radius: 6px;
+  background-color: #ffffff;
+  border: 0.3px solid #e4e4e4;
+  padding: 10px;
+}
+.review-container-header{
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+}
+.review-container-header-nav{
+  display: flex;
+  gap: 5px;
+}
+.review-container-header-nav-button{
+  font-size: 15px;
+  height: 30px;
+  position: relative;
+  padding: 0 10px 0 10px; /* Область для эффекта */
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  justify-content: center;
+  cursor: pointer;
+  border: 0.3px solid #e4e4e4;
+  background-color: white;
+}
+.review-container-header-nav-button::before{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.review-container-header-nav-button:hover::before {
+  opacity: 1;
+}
+.review-container-header-nav-button.active{
+  background-color: #f1f4f9 ;
+}
+   #chart {
+    padding: 15px;
+      margin: auto;
+    }
