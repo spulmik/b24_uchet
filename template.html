@@ -1,0 +1,164 @@
+<!-- template.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="styles/deals.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Учет Финансов</title>
+</head>
+<header class="header">
+    <div class="header-content">
+        <div class="text-block">
+            <h1 class="title"><b>Учет Финансов</b></h1>
+            <p class="description">Отслеживайте свои доходы и расходы</p>
+        </div>
+        <div class="icon-wrapper">
+            <img src="images/filter.svg" alt="Фильтр" class="icon">
+        </div>
+        <div class="icon-wrapper">
+            <img src="/images/gear.svg" alt="Настройки" class="icon">
+        </div>
+<!--Модальное окно 1-->
+<button class="add-button-click" onclick="openModal('modal1')">
+    <span class="plus">+</span>Добавить
+</button>
+</header>
+<body>
+  
+<!-- Модальное окно 1 -->
+<div id="modal1" class="modal" onclick="outsideClick(event, 'modal1')">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <span class="close" onclick="closeModal('modal1')">&times;</span>
+      <h2 class="modal-title"><b>Новый платеж</b></h2>
+      <button class="add-modal-button-deals" onclick="openModal('modal2')">Сделки</button>
+<form class="payment-form" id="payment-form">
+
+  <!-- Ряд формы для переключателя "Доход / Расход" -->
+  <div class="form-row">
+    <div class="switchIncomeExpenses" id="switchIncomeExpenses">
+      <div class="switchIncome active" id="income" data-type="income">Доход</div>
+      <div class="switchIncome" id="expenses" data-type="expenses">Расходы</div>
+    </div>
+  </div>
+
+  <!-- 🔧 Скрытое поле для хранения типа платежа -->
+  <input type="hidden" id="type" name="type" value="income">
+
+  <!-- Ряд формы с полями суммы и даты -->
+  <div class="form-row">
+    <input type="text" id="amount" name="amount" placeholder="Введите сумму" required>
+    <input type="date" id="date" name="date" placeholder="Дата" class="form-date">
+  </div>
+
+  <!-- Ряд с полем "Сделка" -->
+  <div class="form-row">
+    <input type="text" id="deal_title" name="deal_title" placeholder="Сделка">
+  </div>
+
+  <!-- Ряд с полями "Компания" и "Контакт" -->
+  <div class="form-row">
+    <input type="text" id="company_name" name="company_name" placeholder="Компания">
+    <input type="text" id="contact_name" name="contact_name" placeholder="Контакт">
+  </div>
+
+  <!-- Ряд с полем комментария -->
+  <div class="form-row">
+    <input type="text" id="commentary" name="commentary" placeholder="Комментарий" class="full-width">
+  </div>
+
+  <!-- Ряд с кнопкой отправки формы -->
+  <div class="form-row">
+    <button type="submit" class="form-row-button-add-payment">Добавить платеж</button>
+  </div>
+
+</form>
+
+    </div>
+  </div>
+
+<!-- Модальное окно 2 -->
+<div id="modal2" class="modal modal-top" onclick="outsideClick(event, 'modal2')">
+  <div class="modal-content">
+    <div class="modal-content-in-block">
+    <span class="close" onclick="closeModal('modal2')">&times;</span>
+    <div class="modal-content-in-block-header">
+    <h2>Сделки</h2>
+    <input type="text" id="search-input" class="search-input" placeholder="Поиск по названию сделки">
+  </div>
+  <div id="results" class="deals-list">
+    
+  </div>
+    </form>
+  </div>
+  </div>
+</div>
+<div class="tabs">
+    <button class="tab active" onclick="showTab('overview', this)">Обзор</button>
+    <button class="tab" onclick="showTab('income', this)">Доходы</button>
+    <button class="tab" onclick="showTab('expenses', this)">Расходы</button>
+  </div>
+  
+  <div class="tab-content active" id="overview">
+    
+    <div class="blocks-nav">
+      <div class="blocks-balance">
+        <div class="blocks-balance-expenses-income-title">Баланс</div>
+        <div class="circle">
+          <i class="fa-solid fa-credit-card"></i>
+        </div>
+      </div>
+      <div class="blocks-income">
+        <div class="blocks-balance-expenses-income-title">
+          Доходы
+        </div>
+      <div class="circle">
+        <i class="fa-solid fa-up-long"></i>
+      </div>
+    </div>
+      <div class="blocks-expenses">
+        <div class="blocks-balance-expenses-income-title">
+          Расходы
+        </div>
+      <div class="circle">
+        <i class="fa-solid fa-down-long"></i>
+      </div>
+    </div>
+      </div>
+    </div>
+    <div class="review-container-diagramms">
+      <div class="review-container">
+        <div class="review-container-header">
+          <h4>Финансовый график</h4>
+          <div class="review-container-header-nav">
+            <div onclick="updateChart('week', this)" class="review-container-header-nav-button active">Неделя</div>
+            <div onclick="updateChart('month', this)" class="review-container-header-nav-button">Месяц</div>
+            <div onclick="updateChart('year', this)" class="review-container-header-nav-button">Год</div>
+          </div>
+        </div>
+        <div id="chart"></div>
+      </div>
+      <div class="transactions-list">
+        <div class="transactions-list-header">
+        <h3><b>Последние транкзации</b></h3>
+        <p><b>Смотреть все</b></p>
+        </div>
+<div id="transactions-list-content"></div>
+
+  <div class="tab-content" id="income">
+    <p>Контент для доходов</p>
+  </div>
+  <div class="tab-content" id="expenses">
+    <p>Контент для расходов</p>
+  </div>
+</div>
+<script src="js/chart.js"></script>
+<script src="js/script.js"></script>
+<script src="js/deals-block.js"></script>
+</body>
+</html>
