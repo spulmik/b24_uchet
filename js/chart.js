@@ -192,44 +192,44 @@ window.updateChart = function (filter, el) {
 
 //Подсчет для блоков Баланс, Доходы, Расходы
 async function loadSummary() {
-  const now = new Date();
+  const now = new Date();//Сохраняем сегодняшнюю дату
   const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).toISOString(); // первое число месяца
   const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString(); // последнее число месяца
-
+//Запрашиваем данные
   const { data, error } = await supabaseClient
     .from('payments')
     .select('*')
-    .gte('date', firstDay)
-    .lte('date', lastDay);
+    .gte('date', firstDay)//>=
+    .lte('date', lastDay);//<=
 
   if (error) {
     console.error('Ошибка при загрузке баланса:', error.message);
     return;
   }
-
+  //Коробки для доходов/расходов, пока в них 0
   let totalIncome = 0;
   let totalExpenses = 0;
-
+//Проходим по каждому платежу из базы
   data.forEach(entry => {
     if (entry.type === 'income') {
-      totalIncome += entry.amount;
+      totalIncome += entry.amount;//Если доход - добавляем к общей сумме доходов
     } else if (entry.type === 'expenses') {
-      totalExpenses += entry.amount;
+      totalExpenses += entry.amount;//Если расход - добавляем к общей сумме расходов
     }
   });
-
+  //Считаем остаток денег
   const totalBalance = totalIncome - totalExpenses;
 
   // Обновляем блоки на странице
-  document.getElementById('total-balance').textContent = `${totalBalance.toLocaleString()} ₽`;
+  document.getElementById('total-balance').textContent = `${totalBalance.toLocaleString()} ₽`;//Показываем общий баланс
   document.getElementById('monthly-income').textContent = `${totalIncome.toLocaleString()} ₽`;
   document.getElementById('monthly-expenses').textContent = `${totalExpenses.toLocaleString()} ₽`;
 }
 
 // Инициализация
 window.addEventListener('load', () => {
-  createChart();
-  loadTransactions();
-  loadChartData('week');
-  loadSummary();
+  createChart();//Показываем график
+  loadTransactions();//Загружаем список всех платежей
+  loadChartData('week');//Загружаем данные для графика
+  loadSummary();//Считаем баланс, доходы и расходы за месяц
 });
