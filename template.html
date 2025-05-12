@@ -22,8 +22,43 @@
             <img src="images/filter.svg" alt="Фильтр" class="icon">
         </div>
         <div class="icon-wrapper">
-            <img src="/images/gear.svg" alt="Настройки" class="icon">
+          <img src="/images/gear.svg" alt="Настройки" class="icon">
+          <div class="dropdown-for-gear"><!--Модальное окно 3 для статьи доходов и расходов-->
+            <button class="stats-income-expenses" onclick="openModal('modal3')">Статьи доходов и расходов</button>
+    </div>
         </div>
+        <div id="modal3" class="modal-gear-stats">
+        <div class="modal-content-stats">
+          <span class="close" onclick="closeModal('modal3')">&times;</span>
+          <h2><b>Статьи доходов и расходов</b></h2>
+          <div class="columns">
+            <div class="column">
+              <h3>Статья дохода</h3>
+              <div id="income-list" class="item-list">
+          <div class="item"><span class="drag">⋮⋮</span><input value="Не распределено" readonly></div>
+          <div class="item"><span class="drag">⋮⋮</span><input value="Лицензия"><span class="remove" onclick="removeItem(this)">×</span></div>
+          <div class="item"><span class="drag">⋮⋮</span><input value="Статья дохода 2"><span class="remove" onclick="removeItem(this)">×</span></div>
+          <div class="item"><span class="drag">⋮⋮</span><input value="Статья дохода 3"><span class="remove" onclick="removeItem(this)">×</span></div>
+        </div>
+        <button class="add-stats" onclick="addItem('income-list')">+</button>
+            </div>
+            <div class="column">
+              <h3>Статья расхода</h3>
+     <div id="expense-list" class="item-list">
+          <div class="item"><span class="drag">⋮⋮</span><input value="Плата разработчикам"><span class="remove" onclick="removeItem(this)">×</span></div>
+          <div class="item"><span class="drag">⋮⋮</span><input value="Статья расхода 2"><span class="remove" onclick="removeItem(this)">×</span></div>
+          <div class="item"><span class="drag">⋮⋮</span><input value="Статья расхода 3"><span class="remove" onclick="removeItem(this)">×</span></div>
+        </div>
+        <button class="add-stats" onclick="addItem('expense-list')">+</button>
+            </div>
+          </div>
+
+          <button class="save-stats">Сохранить</button>
+        </div>
+      </div>
+
+
+
 <!--Модальное окно 1-->
 <button class="add-button-click" onclick="openModal('modal1')">
     <span class="plus">+</span>Добавить
@@ -46,7 +81,11 @@
       <div class="switchIncome" id="expenses" data-type="expenses">Расходы</div>
     </div>
   </div>
-
+  <div class="form-row">
+    <select name="select-income-or-expenses" id="select-income-or-expenses">
+      <label></label>
+    </select>
+  </div>
   <!-- 🔧 Скрытое поле для хранения типа платежа -->
   <input type="hidden" id="type" name="type" value="income">
 
@@ -105,50 +144,64 @@
   </div>
   
   <div class="tab-content active" id="overview">
-    
-    <div class="blocks-nav">
-      <div class="blocks-balance">
-        <div class="blocks-balance-expenses-income-title">Баланс</div>
-        <div class="circle">
-          <i class="fa-solid fa-credit-card"></i>
-        </div>
-      </div>
-      <div class="blocks-income">
-        <div class="blocks-balance-expenses-income-title">
-          Доходы
-        </div>
-      <div class="circle">
-        <i class="fa-solid fa-up-long"></i>
+
+<div class="blocks-nav">
+  <div class="blocks-balance">
+    <div class="blocks-balance-content">
+    <div class="blocks-balance-expenses-income-title"><p>Баланс</p>
+    <div class="circle">
+      <i class="fa-solid fa-credit-card"></i>
+    </div>
+  </div>
+  <p id="total-balance" class="num-font-bold"><b>0 ₽</b></p>
+  </div>
+  </div>
+  <div class="blocks-income">
+            <div class="blocks-balance-content">
+    <div class="blocks-balance-expenses-income-title">
+      <p>Доходы</p>
+  <div class="circle">
+    <i class="fa-solid fa-up-long"></i>
+  </div>
+  </div>
+    <p id="monthly-income" class="num-font-bold"><b>0 ₽</b></p>
+  </div>
+</div>
+  <div class="blocks-expenses">
+            <div class="blocks-balance-content">
+    <div class="blocks-balance-expenses-income-title">
+      <p>Расходы</p>
+  <div class="circle">
+    <i class="fa-solid fa-down-long"></i>
+  </div>
+</div>
+  <p id="monthly-expenses" class="num-font-bold"><b>0 ₽</b></p>
+</div>
+</div>
+  </div>
+</div>
+<div class="review-container-diagramms">
+  <div class="review-container">
+    <div class="review-container-header">
+      <h4><strong>Финансовый график</strong></h4>
+      <div class="review-container-header-nav">
+        <div onclick="updateChart('week', this)" class="review-container-header-nav-button active">Неделя</div>
+        <div onclick="updateChart('month', this)" class="review-container-header-nav-button">Месяц</div>
+        <div onclick="updateChart('year', this)" class="review-container-header-nav-button">Год</div>
       </div>
     </div>
-      <div class="blocks-expenses">
-        <div class="blocks-balance-expenses-income-title">
-          Расходы
-        </div>
-      <div class="circle">
-        <i class="fa-solid fa-down-long"></i>
-      </div>
+    <div id="chart"></div>
+  </div>
+  <div class="transactions-list">
+    <div class="transactions-list-header">
+    <h3><b>Последние транкзации</b></h3>
+    <p><b>Смотреть все</b></p>
     </div>
-      </div>
+    <div class="transactions-list-filter">
+      <p><strong>Фильтры</strong></p>
+      <span class="filter-unfold"><img src="#" alt=""></span>Развернуть
     </div>
-    <div class="review-container-diagramms">
-      <div class="review-container">
-        <div class="review-container-header">
-          <h4>Финансовый график</h4>
-          <div class="review-container-header-nav">
-            <div onclick="updateChart('week', this)" class="review-container-header-nav-button active">Неделя</div>
-            <div onclick="updateChart('month', this)" class="review-container-header-nav-button">Месяц</div>
-            <div onclick="updateChart('year', this)" class="review-container-header-nav-button">Год</div>
-          </div>
-        </div>
-        <div id="chart"></div>
-      </div>
-      <div class="transactions-list">
-        <div class="transactions-list-header">
-        <h3><b>Последние транкзации</b></h3>
-        <p><b>Смотреть все</b></p>
-        </div>
-<div id="transactions-list-content"></div>
+<div  id="transactions-list-content"></div>
 
   <div class="tab-content" id="income">
     <p>Контент для доходов</p>
