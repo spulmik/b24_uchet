@@ -1,4 +1,13 @@
-//Крестик
+//Модальное окно для Статей расходов и доходов
+function openModal(id){
+  document.getElementById(id).style.display = "block";
+}
+//Закрываем модальное окно
+function closeModal(id){
+  document.getElementById(id).style.display = "none";
+}
+//Также закрываем модальное окно
+//Открытие модального окна
 function openModal(id) {
     const modal = document.getElementById(id);
     modal.style.display = 'block';
@@ -6,7 +15,7 @@ function openModal(id) {
       modal.classList.add('show');
     }, 10);
   }
-//Закрытие модального окна
+//Закрытие модального окна через крестик
   function closeModal(id) {
     const modal = document.getElementById(id);
     modal.classList.remove('show');
