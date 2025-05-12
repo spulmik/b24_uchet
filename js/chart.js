@@ -72,8 +72,8 @@ paymentForm.addEventListener('submit', function (event) {
     alert('Пожалуйста, заполните обязательные поля (сумма, дата, тип).');
     return;
   }
-
   addPayment(amount, type, date, deal_title, company_name, contact_name, commentary);//Добавляем платеж
+  loadSummary();
   paymentForm.reset();//Очищаем форму
 });
 
@@ -190,9 +190,46 @@ window.updateChart = function (filter, el) {
   loadChartData(filter);
 };
 
+//Подсчет для блоков Баланс, Доходы, Расходы
+async function loadSummary() {
+  const now = new Date();
+  const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).toISOString(); // первое число месяца
+  const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString(); // последнее число месяца
+
+  const { data, error } = await supabaseClient
+    .from('payments')
+    .select('*')
+    .gte('date', firstDay)
+    .lte('date', lastDay);
+
+  if (error) {
+    console.error('Ошибка при загрузке баланса:', error.message);
+    return;
+  }
+
+  let totalIncome = 0;
+  let totalExpenses = 0;
+
+  data.forEach(entry => {
+    if (entry.type === 'income') {
+      totalIncome += entry.amount;
+    } else if (entry.type === 'expenses') {
+      totalExpenses += entry.amount;
+    }
+  });
+
+  const totalBalance = totalIncome - totalExpenses;
+
+  // Обновляем блоки на странице
+  document.getElementById('total-balance').textContent = `${totalBalance.toLocaleString()} ₽`;
+  document.getElementById('monthly-income').textContent = `${totalIncome.toLocaleString()} ₽`;
+  document.getElementById('monthly-expenses').textContent = `${totalExpenses.toLocaleString()} ₽`;
+}
+
 // Инициализация
 window.addEventListener('load', () => {
   createChart();
   loadTransactions();
   loadChartData('week');
+  loadSummary();
 });
