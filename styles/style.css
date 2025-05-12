@@ -63,6 +63,131 @@
     opacity: 1;
 }
 
+.dropdown-for-gear {
+  display: none;/*Скрыт по умолчанию*/
+  position: absolute;
+  top: 100%; /* под иконкой */
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  min-width: 150px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 6px;
+  z-index: 1000;
+  cursor: pointer;
+}
+
+.dropdown-for-gear button {
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  display: block;
+  padding: 10px 16px;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+.dropdown-for-gear button:hover {
+  background-color: #f0f0f0;
+}
+
+.icon-wrapper:hover .dropdown-for-gear {
+  display: block;
+}
+
+.modal-gear-stats{
+  display: none;
+  position:fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+/*Содержимое статей*/
+.modal-content-stats{
+  background: #fff;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 6px;
+  width: 90%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+.modal-content-stats h2{
+  text-align: center;
+  font-size: 24px;
+}
+.income-list{
+  gap: 10px;
+}
+
+.columns {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+}
+.column {
+  width: 50%;
+}
+.item-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f8f8f8;
+  padding: 5px 10px;
+  border-radius: 6px;
+}
+
+.item input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  outline: none;
+}
+.drag {
+  cursor: grab;
+  font-size: 18px;
+  color: #888;
+}
+.remove {
+  cursor: pointer;
+  font-size: 18px;
+  color: #888;
+}
+.remove:hover {
+  color: red;
+}
+.add-stats {
+  align-content: center;
+  align-items: center;
+  margin-top: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #00aaff;
+}
+.save-stats {
+  margin: 30px auto 0;
+  display: block;
+  background-color: #25c2f0;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 30px;
+  font-size: 16px;
+  cursor: pointer;
+}
+/* Конец содержимого статей */
+
 .icon {
     width: 20px;
     height: 20px;
@@ -74,7 +199,7 @@
     color: white;
     border: none;
     border-radius: 6px; 
-    padding: 8px 16px;
+    padding: 5px 16px;
     display: flex;
     align-items: center;
     gap: 6px;
@@ -111,12 +236,7 @@
     gap: 10px;
 }
 body {
-  
     font-family: sans-serif;
-  }
-
-  button {
-    margin: 10px;
   }
 
   /* Общий затемнённый фон */
@@ -156,7 +276,7 @@ body {
     position: absolute;
     border-radius: 6px;
     top: 100px;
-    height: 300px;
+    height: 450px;
     width: 425px;
     right: 450px; /* выезжает левее первой */
     overflow-y: auto;
@@ -178,6 +298,9 @@ body {
     font-size: 15px;
     border: 1px solid #ccc;
     flex: 1;
+  }
+  .deals-list{
+    margin-top: 10px;
   }
   .deal-block {
     margin-bottom: 10px;   /* Отступ снизу у каждого блока */
@@ -210,9 +333,6 @@ body {
   }
 
   .close {
-    position: absolute;
-    top: 10px;
-    right: 15px;
     font-size: 24px;
     color: #aaa;
     cursor: pointer;
@@ -296,13 +416,15 @@ color: black;
 }
 
 .tab {
+  margin: 5px;
+  color: #888888;
   justify-content: center;
   text-align: center;
   align-content: center;
   background: transparent;
   border: none;
   padding: 10px 10px;
-  font-size: 15px;
+  font-size: 13px;
   cursor: pointer;
   transition: background-color 0.3s ease;
   border-radius: 5px;
@@ -359,17 +481,31 @@ color: black;
   border-radius: 8px;
   height: 150px;
   width:33.3%;
-  display: flex;
-  justify-content: space-between;
   background: #9d43f0;
   color: #f8e7ff;
+}
+.blocks-balance-content{
+    margin: 20px;
+}
+.blocks-balance-expenses-income-title{
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  justify-content: space-between;
+}
+.blocks-balance-expenses-income-title p{
+  font-size: 15px;
+}
+.num-font-bold{
+  margin-top: 5px;
+  font-size: 24px;
+  color: white;
 }
 .blocks-income{
   border-radius: 8px;
   height: 150px;
   width:33.3%;
-  display: flex;
-  justify-content: space-between;
   background: #1cb153;
   color: #f8e7ff;
 }
@@ -377,18 +513,13 @@ color: black;
   border-radius: 8px;
   height: 150px;
   width:33.3%;
-  display: flex;
-  justify-content: space-between;
   background: #e73938 ;
   color: #f8e7ff;
 }
-.blocks-balance-expenses-income-title{
-  padding: 30px 0 0 20px;
-}
+
 .circle{
   align-content: center;
   text-align: center;
-  margin: 20px;
   width: 30px;
   height: 30px;
   background-color: rgba(254, 255, 255, 0.2);
@@ -457,7 +588,7 @@ color: black;
         border: 1px solid #ccc;
     }
 .transactions-list-header{
-  padding: 10px;
+  padding: 15px;
   display: flex;
   justify-content: space-between;
 }
@@ -480,4 +611,10 @@ color: black;
 }
 .income{
   text-align: center;
+}
+.transactions-list-filter{
+  font-size: 15px;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
 }
