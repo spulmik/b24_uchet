@@ -7,6 +7,22 @@ function closeModal(id){
   document.getElementById(id).style.display = "none";
 }
 //Также закрываем модальное окно
+
+function addItem(listId) {
+  const list = document.getElementById(listId);
+  const item = document.createElement("div");
+  item.className = "item";
+  item.innerHTML = `
+    <span class="drag">⋮⋮</span>
+    <input type="text" placeholder="Новая статья">
+    <span class="remove" onclick="removeItem(this)">×</span>
+  `;
+  list.appendChild(item);
+}
+
+function removeItem(el) {
+  el.parentElement.remove();
+}
 //Открытие модального окна
 function openModal(id) {
     const modal = document.getElementById(id);
